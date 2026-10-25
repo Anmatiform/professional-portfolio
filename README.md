@@ -34,4 +34,5 @@
 - صفحة المياه هي `greywater-code.html` فقط. الصفحتان الأخريان للمياه غير مضمّنتين.
 - صفحات المشاريع تحتفظ بتصميمها وأبعادها الأصلية كما طلبت؛ الرئيسية الجديدة تتكيف مع الجوال.
 - روابط المشاريع نسبية لتعمل داخل مسار مستودع GitHub Pages.
-- لم يُرفع الموقع أو يُنشر ضمن هذه النسخة المحلية.
+- المستودع: https://github.com/Anmatiform/professional-portfolio
+- رابط الموقع: https://anmatiform.github.io/professional-portfolio/
