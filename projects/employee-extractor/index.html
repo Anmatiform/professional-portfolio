@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>استخراج الموظفين | MEP</title>
+<style>
+:root{--bg:#f0f2f5;--paper:#fff;--ink:#2c3e50;--muted:#707e8a;--line:#dcdfe4;--green:#27836b;--orange:#e67e22}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.7 "Segoe UI",Tahoma,Arial,sans-serif}button,textarea,input{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:white;color:var(--ink);border-radius:5px;padding:8px 15px;font-weight:600}button:hover{background:#f3f5f7}button:disabled{opacity:.45;cursor:default}button.primary{background:var(--ink);border-color:var(--ink);color:white}button.primary:hover{background:#1a252f}button:focus-visible,input:focus-visible{outline:3px solid #e67e2280;outline-offset:3px}
+.shell{max-width:1400px;margin:auto;padding:25px 28px}.header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-bottom:21px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:13px}.mark{width:40px;height:40px;background:var(--ink);color:white;display:grid;place-items:center;font-size:13px;font-weight:700;border-radius:6px;letter-spacing:1px}h1{font-size:22px;margin:0;font-weight:700}.subtitle{color:var(--muted);font-size:12px;margin:1px 0 0}.local{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}.dot{width:7px;height:7px;background:var(--green);border-radius:50%}
+.intro{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:24px 0 18px}.intro p{margin:0;color:var(--muted)}.serial{font:12px Consolas,monospace;color:var(--muted);letter-spacing:1px}.workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}.panel{background:var(--paper);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 2px 8px #00000004}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:15px 19px;border-bottom:1px solid var(--line)}h2{font-size:15px;margin:0}.step{display:inline-grid;place-items:center;width:23px;height:23px;background:#eef1f4;border-radius:4px;font-size:11px;margin-left:8px;font-family:Consolas,monospace}.tag{font-size:11px;color:var(--muted)}.input-body{padding:18px}label.field-label{display:block;font-size:12px;margin-bottom:9px;color:var(--muted)}textarea{width:100%;height:390px;resize:vertical;border:1px solid var(--line);border-radius:5px;padding:16px;direction:ltr;text-align:left;line-height:1.8;color:var(--ink);background:#fcfcfd;font-family:Consolas,"Segoe UI",monospace;font-size:13px;tab-size:2}textarea:focus{outline:none;border-color:#617e99;box-shadow:0 0 0 3px #617e9917}.input-meta{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted);margin-top:6px}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:19px}.actions .primary{margin-left:auto}.rule{margin:18px 0 0;padding-top:14px;border-top:1px solid #edf0f2;color:var(--muted);font-size:12px}.rule strong{color:var(--ink);font-weight:600}.stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}.stat{padding:16px 18px;border-left:1px solid var(--line)}.stat:last-child{border-left:0}.stat b{display:block;font:600 26px/1.3 "Segoe UI",sans-serif;font-variant-numeric:tabular-nums}.stat span{font-size:11px;color:var(--muted)}.stat:first-child{border-top:3px solid var(--green);padding-top:13px}.options{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line)}.check{display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer}.check input{accent-color:var(--ink);width:15px;height:15px}.copy{font-size:12px;padding:5px 12px}.table-wrap{max-height:422px;overflow:auto}table{width:100%;border-collapse:collapse;text-align:right}th{font-size:11px;color:var(--muted);background:#f8f9fb;position:sticky;top:0;z-index:1}th,td{padding:10px 18px;border-bottom:1px solid #edf0f2}td{font-size:13px}tbody tr:hover{background:#f8fafb}.num{font-family:Consolas,monospace;white-space:nowrap;letter-spacing:.5px}.name{direction:ltr;text-align:left}.index{width:45px;color:#94a0aa;font:11px Consolas,monospace}.missing{color:#9b6b25;font-family:"Segoe UI",Tahoma,sans-serif;direction:rtl;text-align:right}.empty{padding:72px 28px;text-align:center}.empty-symbol{font:28px Consolas,monospace;color:#a6b1bb;margin-bottom:12px}.empty strong{display:block;font-size:15px}.empty p{max-width:260px;margin:8px auto 0;color:var(--muted);font-size:12px}.result-note{padding:10px 18px;font-size:11px;color:var(--muted);background:#fcfcfd;border-top:1px solid var(--line);min-height:40px}.footer{display:flex;justify-content:space-between;gap:18px;margin-top:22px;font-size:11px;color:var(--muted)}.footer span:last-child{font-family:Consolas,monospace;letter-spacing:.7px}.status{min-height:24px;font-size:12px;margin-top:8px;color:var(--green)}[hidden]{display:none!important}
+@media(max-width:800px){.shell{padding:18px 14px}.workspace{grid-template-columns:1fr}.header{align-items:flex-start}.local{margin-top:10px;white-space:nowrap}.serial{display:none}.intro{margin-top:18px}h1{font-size:19px}textarea{height:300px}.footer{flex-wrap:wrap}.panel-head{padding:13px 15px}}@media(max-width:430px){.local{display:none}.stat{padding-right:12px;padding-left:10px}.actions button{padding:8px 11px}th,td{padding:10px 12px}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="header"><div class="brand"><div class="mark" aria-hidden="true">MEP</div><div><h1>استخراج الموظفين</h1><p class="subtitle">من نص التقرير إلى سجل مرتب</p></div></div><div class="local"><span class="dot"></span>يعمل محليًا داخل متصفحك</div></header>
+<div class="intro"><p>الصق التقرير كما هو، واستخرج أسماء الموظفين وأرقامهم الوظيفية.</p><span class="serial" dir="ltr">ROSTER / TEXT UTILITY</span></div>
+<div class="workspace">
+<section class="panel" aria-labelledby="source-title"><div class="panel-head"><h2 id="source-title"><span class="step">01</span>النص الأصلي</h2><span class="tag">تقرير حضور أو رسالة</span></div><div class="input-body"><label class="field-label" for="source">ألصق النص كاملًا، مع الرموز والتواريخ</label><textarea id="source" spellcheck="false" placeholder="Fire Group&#10;Date 8/10/2026&#10;&#10;Mahmoud Yahya F/M&#10;🆔 9385117&#10;&#10;Muhammed Salama&#10;🆔 9375708"></textarea><div class="input-meta"><span>لا يحتاج النص إلى ترتيب مسبق</span><span id="char-count">0 حرف</span></div><div class="actions"><button class="primary" id="analyze">استخراج الموظفين ←</button><button id="example">تجربة المثال</button><button id="clear">مسح</button></div><p class="rule"><strong>قاعدة الاستخراج:</strong> رقم من ٧ خانات، ثم أقرب اسم إنجليزي قبله. يتم تجاهل العربية والرموز والشرطات، والتوقف عند رقم أو نقطة.</p><div class="status" id="status" role="status" aria-live="polite"></div></div></section>
+<section class="panel" aria-labelledby="result-title"><div class="panel-head"><h2 id="result-title"><span class="step">02</span>سجل الموظفين</h2><span class="tag" id="result-tag">بانتظار النص</span></div><div class="stats"><div class="stat"><b id="unique-count">0</b><span>موظف فريد</span></div><div class="stat"><b id="total-count">0</b><span>رقم في النص</span></div><div class="stat"><b id="duplicate-count">0</b><span>تكرار إضافي</span></div></div><div class="options"><label class="check"><input type="checkbox" id="duplicates">إظهار التكرارات</label><button class="copy" id="copy" disabled>نسخ الجدول</button></div><div class="empty" id="empty"><div class="empty-symbol" aria-hidden="true">[ 0000000 ]</div><strong>النتائج تبدأ من هنا</strong><p>أضف تقريرك واضغط «استخراج الموظفين»، أو جرّب المثال الجاهز.</p></div><div class="table-wrap" id="table-wrap" hidden><table><thead><tr><th scope="col">#</th><th scope="col" class="name">اسم الموظف</th><th scope="col">الرقم الوظيفي</th></tr></thead><tbody id="rows"></tbody></table></div><div class="result-note" id="result-note">يُعرض كل رقم مرة واحدة افتراضيًا.</div></section>
+</div><footer class="footer"><span>الأسماء مستخرجة من النص؛ يمكنك تعديل التقرير وإعادة التحليل.</span><span dir="ltr">MEP · EMPLOYEE EXTRACTOR</span></footer>
+</main>
+<script id="extractor-core">
+function extractEmployees(text) {
+  // Match original digit runs before cleaning: punctuation must never join digits.
+  const records = [];
+  const digits = /[0-9]+/g;
+  let match;
+  while ((match = digits.exec(text)) !== null) {
+    if (match[0].length !== 7) continue;
+    let cursor = match.index - 1;
+    let candidate = '';
+    while (cursor >= 0) {
+      const char = text[cursor--];
+      if (/[0-9.\u2026]/.test(char)) break;
+      // Once a name line is collected, do not absorb report headings above it.
+      if (char === '\n' || char === '\r') {
+        if (/[A-Za-z]/.test(candidate.replace(/\bF\s*\/\s*M\b/gi, ''))) break;
+        candidate = '';
+      } else {
+        candidate = char + candidate;
+      }
+    }
+    const name = candidate.replace(/\bF\s*\/\s*M\b/gi, ' ')
+      .replace(/[^A-Za-z\s]/g, ' ').replace(/\s+/g, ' ').trim();
+    records.push({ name, id: match[0] });
+  }
+  return records;
+}
+function uniqueEmployees(records) {
+  const byId = new Map();
+  for (const record of records) {
+    if (!byId.has(record.id)) byId.set(record.id, record);
+    else if (!byId.get(record.id).name && record.name) byId.set(record.id, record);
+  }
+  return [...byId.values()];
+}
+</script>
+<script>
+const $ = id => document.getElementById(id);
+const exampleRoster = ` Mahmoud Yahya F/M
+🆔 9385117
+ Muhammed Salama
+🆔 9375708
+Islam Rajab
+🆔9375616
+Hafeez Muhammad
+🆔4048627
+ Mahmoud Muhammad Ali
+🆔 9375615
+ Ahmed Muhammadi
+🆔 9375507
+Ishtiaq Ansari
+🆔 9375137
+ Afaq Aziz
+🆔 9379293
+ Siraj Ansari
+🆔 9376322
+ Saddam Hussain
+🆔 9376160
+Tahir Hussain
+🆔 9376323
+ Salah Uddin
+🆔 9375143
+ Noor Uddin
+🆔 9375741
+Muhammad Tayyab
+🆔 9373352
+Shamshair Alam
+🆔1045437
+Said ur Rahman
+🆔9374584
+ Nayeem Hussain
+🆔 8111209
+Muhammad Shanto
+🆔 8111214
+ Ismail Khan
+🆔 8085446
+ Mehdi Hassan
+🆔 8113847
+ Muhammad Alam
+🆔 8107379
+Ahmed Muhammed Mustafa
+🆔 8107337
+Muhammed Khalf
+🆔 8107336
+ Muhammed Saleh
+🆔 8107354
+Hadis ur Rehman
+🆔 8084288`;
+const sample = `Fire Group
+Overtime 6:00Pm
+Foreman Mahmoud Yahya
+Date 8/10/2026
+${exampleRoster}
+ Muhammed Hamdi
+🆔 81071…
+Fire Group Attendanc
+Foreman Mahmoud Yahya
+Overtime Friday
+Date 9/10/2026
+${exampleRoster}`;
+let records = [];
+let analyzed = false;
+let dirty = false;
+function visibleRecords() { return $('duplicates').checked ? records : uniqueEmployees(records); }
+function countChars() { $('char-count').textContent = `${$('source').value.length.toLocaleString('ar-SA')} حرف`; }
+function render() {
+  const unique = uniqueEmployees(records);
+  $('unique-count').textContent = unique.length;
+  $('total-count').textContent = records.length;
+  $('duplicate-count').textContent = records.length - unique.length;
+  const visible = visibleRecords();
+  $('rows').replaceChildren();
+  visible.forEach((record, index) => {
+    const row = document.createElement('tr');
+    [String(index + 1), record.name || 'اسم غير متوفر', record.id].forEach((value, column) => {
+      const cell = document.createElement('td');
+      cell.className = column === 0 ? 'index' : column === 1 ? (record.name ? 'name' : 'missing') : 'num';
+      if (column !== 0) cell.dir = column === 1 && !record.name ? 'rtl' : 'ltr';
+      cell.textContent = value;
+      row.append(cell);
+    });
+    $('rows').append(row);
+  });
+  $('empty').hidden = visible.length > 0;
+  $('table-wrap').hidden = !visible.length;
+  $('copy').disabled = !visible.length || dirty;
+  $('result-tag').textContent = dirty ? 'النص تغير · أعد الاستخراج' : analyzed ? `${visible.length} صف` : 'بانتظار النص';
+  $('result-note').textContent = dirty ? 'النتائج تخص النص السابق. اضغط استخراج الموظفين لتحديثها.' : records.length ? `يُعرض ${visible.length} صف · ${$('duplicates').checked ? 'يشمل جميع التكرارات' : 'دون تكرار الرقم الوظيفي'}${records.some(r => !r.name) ? ' · بعض الأرقام لم يسبقها اسم إنجليزي.' : ''}` : 'يُعرض كل رقم مرة واحدة افتراضيًا.';
+  if (analyzed && !records.length) {
+    $('empty').querySelector('strong').textContent = 'لم نعثر على أرقام وظيفية';
+    $('empty').querySelector('p').textContent = 'تأكد من وجود أرقام من ٧ خانات متتالية بالضبط، ثم أعد الاستخراج.';
+  } else {
+    $('empty').querySelector('strong').textContent = 'النتائج تبدأ من هنا';
+    $('empty').querySelector('p').textContent = 'أضف تقريرك واضغط «استخراج الموظفين»، أو جرّب المثال الجاهز.';
+  }
+}
+function analyze() {
+  records = extractEmployees($('source').value);
+  analyzed = true; dirty = false; render();
+  $('status').textContent = records.length ? `تم استخراج ${uniqueEmployees(records).length} موظف فريد.` : 'اكتمل التحليل؛ لا توجد أرقام مطابقة.';
+}
+$('analyze').addEventListener('click', analyze);
+$('example').addEventListener('click', () => { $('source').value = sample; countChars(); analyze(); });
+$('source').addEventListener('input', () => { countChars(); dirty = analyzed; $('status').textContent = ''; render(); });
+$('duplicates').addEventListener('change', render);
+$('clear').addEventListener('click', () => { $('source').value = ''; records = []; analyzed = false; dirty = false; countChars(); render(); $('status').textContent = 'تم مسح النص والنتائج.'; $('source').focus(); });
+$('copy').addEventListener('click', async () => {
+  const text = ['اسم الموظف\tالرقم الوظيفي', ...visibleRecords().map(r => `${r.name}\t${r.id}`)].join('\n');
+  try {
+    if (!navigator.clipboard || !window.isSecureContext) throw new Error('fallback');
+    await navigator.clipboard.writeText(text);
+    $('status').textContent = 'تم نسخ الجدول. يمكنك لصقه مباشرة في Excel.';
+  } catch {
+    const helper = document.createElement('textarea');
+    helper.value = text; helper.style.position = 'fixed'; helper.style.opacity = '0';
+    document.body.append(helper); helper.select();
+    let copied = false;
+    try { copied = document.execCommand('copy'); } catch {}
+    helper.remove();
+    $('status').textContent = copied ? 'تم نسخ الجدول. يمكنك لصقه مباشرة في Excel.' : 'تعذر النسخ التلقائي. حدد خلايا الجدول وانسخها يدويًا.';
+  }
+});
+</script>
+</body>
+</html>

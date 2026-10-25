@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>MEP Site Tracker</title><link rel="stylesheet" href="Styles.css">
+</head>
+<body>
+
+<!-- ======= HEADER ======= -->
+<div class="header">
+  <div class="header-left">
+    <h1>MEP Site Tracker</h1>
+    <span class="header-date" id="headerDate"></span>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-primary" onclick="openNewGroupModal()">+ New Group</button>
+    <button class="btn btn-outline" onclick="refreshAll()">↻ Refresh</button>
+  </div>
+</div>
+
+<!-- ======= SUMMARY BAR ======= -->
+<div class="summary-bar" id="summaryBar">
+  <div class="summary-item"><div class="summary-val" id="sumGroups">-</div><div class="summary-label">Active Groups</div></div>
+  <div class="summary-item"><div class="summary-val" id="sumWorkers">-</div><div class="summary-label">Total Workers</div></div>
+  <div class="summary-item highlight"><div class="summary-val" id="sumToday">-</div><div class="summary-label">Meters Today</div></div>
+  <div class="summary-item"><div class="summary-val" id="sumDuctToday">-</div><div class="summary-label">Duct Today (cm²)</div></div>
+</div>
+
+<!-- ======= FILTERS ======= -->
+<div class="filters">
+  <div class="filter-group">
+    <span class="filter-label">System:</span>
+    <button class="filter-btn active" data-filter="system" data-val="all">All</button>
+    <button class="filter-btn" data-filter="system" data-val="Duct">Duct</button>
+    <button class="filter-btn" data-filter="system" data-val="Drainage">Drainage</button>
+    <button class="filter-btn" data-filter="system" data-val="Firefighting pipe">Fire</button>
+    <button class="filter-btn" data-filter="system" data-val="Chilled water">Chilled</button>
+    <button class="filter-btn" data-filter="system" data-val="Fresh water PPR">Fresh PPR</button>
+    <button class="filter-btn" data-filter="system" data-val="Chilled Fire">Chilled Fire</button>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Floor:</span>
+    <button class="filter-btn active" data-filter="floor" data-val="all">All</button>
+    <button class="filter-btn" data-filter="floor" data-val="1">F1</button>
+    <button class="filter-btn" data-filter="floor" data-val="2">F2</button>
+    <button class="filter-btn" data-filter="floor" data-val="3">F3</button>
+    <button class="filter-btn" data-filter="floor" data-val="4">F4</button>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Zone:</span>
+    <button class="filter-btn active" data-filter="zone" data-val="all">All</button>
+    <button class="filter-btn" data-filter="zone" data-val="A">A</button>
+    <button class="filter-btn" data-filter="zone" data-val="B">B</button>
+  </div>
+</div>
+
+<!-- ======= CARD GRID ======= -->
+<div class="stats-row" id="filteredStats"></div>
+<div class="card-grid" id="cardGrid">
+  <div class="loading">Loading...</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODALS -->
+<!-- ============================================================ -->
+
+<!-- New Group Modal -->
+<div class="modal-overlay" id="modalNewGroup">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>New Group</h2>
+      <button class="modal-close" onclick="closeModal('modalNewGroup')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Foreman</label>
+        <div class="foreman-row">
+          <select id="newForeman" style="flex:1">
+            <option value="">-- Select --</option>
+          </select>
+          <button type="button" class="btn btn-outline btn-sm" onclick="addNewForeman()" style="padding:8px 10px;flex:0">+</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>System Type</label>
+        <select id="newSystem">
+          <option value="">-- Select --</option>
+          <option value="Duct">Duct</option>
+          <option value="Drainage">Drainage</option>
+          <option value="Firefighting pipe">Firefighting pipe</option>
+          <option value="Chilled water">Chilled water</option>
+          <option value="Chilled & Fire">Chilled Fire</option>
+          <option value="Fresh water PPR">Fresh water PPR</option>
+        </select>
+      </div>
+      <div class="form-group form-row">
+        <div>
+          <label>Floor</label>
+          <select id="newFloor">
+            <option value="">--</option>
+            <option value="1">Floor 1</option>
+            <option value="2">Floor 2</option>
+            <option value="3">Floor 3</option>
+            <option value="4">Floor 4</option>
+          </select>
+        </div>
+        <div>
+          <label>Zone</label>
+          <select id="newZone">
+            <option value="">--</option>
+            <option value="A">Zone A</option>
+            <option value="B">Zone B</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Team Size (1–30)</label>
+        <input type="number" id="newTeamSize" min="1" max="30" placeholder="e.g. 6">
+      </div>
+      <button class="btn btn-primary btn-full" onclick="submitNewGroup()">Create Group</button>
+      <div class="modal-error" id="newGroupError"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Move Group Modal -->
+<div class="modal-overlay" id="modalMove">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Move Group</h2>
+      <button class="modal-close" onclick="closeModal('modalMove')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="move-info" id="moveGroupInfo"></div>
+      <div class="form-group form-row">
+        <div>
+          <label>New Floor</label>
+          <select id="moveFloor">
+            <option value="1">Floor 1</option>
+            <option value="2">Floor 2</option>
+            <option value="3">Floor 3</option>
+            <option value="4">Floor 4</option>
+          </select>
+        </div>
+        <div>
+          <label>New Zone</label>
+          <select id="moveZone">
+            <option value="A">Zone A</option>
+            <option value="B">Zone B</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="submitMove()">Confirm Move</button>
+    </div>
+  </div>
+</div>
+
+<!-- KPI Entry Modal -->
+<div class="modal-overlay" id="modalKPI">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Add KPI</h2>
+      <button class="modal-close" onclick="closeModal('modalKPI')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="kpi-info" id="kpiGroupInfo"></div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="kpiDate">
+      </div>
+      <div class="form-group">
+        <label id="kpiQuantityLabel">Meters Installed (m)</label>
+        <input type="number" id="kpiMeters" placeholder="Meters of pipe installed" step="0.5" min="0">
+      </div>
+      <div class="form-group">
+        <label>Notes (optional)</label>
+        <input type="text" id="kpiNotes" placeholder="Any remarks...">
+      </div>
+      <button class="btn btn-primary btn-full" onclick="submitKPI()">Save KPI</button>
+      <div class="modal-error" id="kpiError"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal-overlay" id="modalDetails">
+  <div class="modal modal-wide">
+    <div class="modal-header">
+      <h2 id="detailsTitle">Group Details</h2>
+      <button class="modal-close" onclick="closeModal('modalDetails')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="details-summary" id="detailsSummary"></div>
+
+      <h3>KPI History</h3>
+      <div class="details-chart" id="kpiChart"></div>
+      <table class="kpi-table">
+        <thead><tr><th>Date</th><th id="kpiHistoryQuantity">Meters (m)</th><th>Floor</th><th>Zone</th><th>Notes</th><th></th></tr></thead>
+        <tbody id="kpiTableBody"></tbody>
+      </table>
+
+      <h3>Activity Log</h3>
+      <table class="log-table">
+        <thead><tr><th>Time</th><th>Action</th><th>Details</th></tr></thead>
+        <tbody id="logTableBody"></tbody>
+      </table>
+
+      <div class="details-actions">
+        <button class="btn btn-danger" id="btnDeleteGroup" onclick="confirmDeleteGroup()">Delete Group</button>
+        <button class="btn btn-outline" onclick="closeModal('modalDetails')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Delete confirmation (simple) -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="modalConfirm">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <h2>Confirm Delete</h2>
+      <button class="modal-close" onclick="closeModal('modalConfirm')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p id="confirmMessage"></p>
+      <div class="form-row">
+        <button class="btn btn-danger" id="btnConfirmYes" onclick="">Yes, Delete</button>
+        <button class="btn btn-outline" onclick="closeModal('modalConfirm')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="demo.js"></script><script src="JavaScript.js"></script>
+</body>
+</html>
